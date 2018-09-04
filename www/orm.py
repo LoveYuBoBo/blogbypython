@@ -129,7 +129,7 @@ class ModleMetaclass(type):
 		attrs['__update__']='update `%s` set %s where `%s`=?' %(tableName,','.join(map(lambda f:'`%s`=?'%(mappings.get(f).name or f),fields)),primarykey)
 		attrs['__delete__']='delete from `%s` where `%s`=?' %(tableName,primarykey)
 		return type.__new__(cls,name,bases,attrs)
-
+		
 class Model(dict,metaclass=ModleMetaclass):
 	"""docstring for Model"""
 	def __init__(self, *kw):
@@ -186,7 +186,7 @@ class Model(dict,metaclass=ModleMetaclass):
 		if where:
 			sql.append('where')
 			sql.append(where)
-		rs=await select(''.join(sql),args,1)
+		rs=await select(''.join(sql) , args ,1)
 		if len(rs)==0:
 			return None
 		return rs[0]['_num_']
